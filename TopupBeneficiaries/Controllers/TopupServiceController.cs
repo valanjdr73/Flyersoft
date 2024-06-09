@@ -19,14 +19,14 @@ namespace TopupBeneficiaries.Controllers
         private readonly IUserRepository _userRepository;
         private readonly ILogger<TopupServiceController> _logger;
         private readonly ITopupValidator topupValidator;
-        private readonly LimitsAndCharges limitSettings;
+        private readonly ILimitsAndCharges limitSettings;
         private readonly IUserFinanceService financeService;
 
         public TopupServiceController(ILogger<TopupServiceController> logger,
             ITopUpRepository topUpRepository,
             IUserRepository userRepository,
             ITopupValidator topupValidator,
-            LimitsAndCharges limitsAndCharges,
+            ILimitsAndCharges limitsAndCharges,
             IUserFinanceService userFinanceService)
         {
             _topupRepository = topUpRepository;

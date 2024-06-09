@@ -26,7 +26,7 @@ builder.Services.AddScoped<ITopUpRepository,TopUpRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddTransient<ITopupValidator, TopupValidatior>();
 builder.Services.AddTransient<IUserFinanceService, UserFinanceService>();
-builder.Services.AddSingleton<LimitsAndCharges>();
+builder.Services.AddSingleton<ILimitsAndCharges, LimitsAndCharges>();
 builder.Services.AddSingleton<ServiceUrlsConfig>();
 
 builder.Services.AddDbContext<TopupBeneficiaryContext>(

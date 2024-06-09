@@ -36,7 +36,7 @@ namespace TopupBeneficiaries.Repositories
             
         }
 
-        public async Task<TopUpBeneficiary?> GetBeneficiaryDetails(long beneficiaryId)
+        public async Task<TopUpBeneficiary?> GetBeneficiaryDetailsAsync(long beneficiaryId)
         {
             return await _dbContext.TopUpBeneficiaries.Include(t => t.User).FirstOrDefaultAsync(b => b.Id == beneficiaryId && b.IsDeleted == false && b.IsActive == true);
         }

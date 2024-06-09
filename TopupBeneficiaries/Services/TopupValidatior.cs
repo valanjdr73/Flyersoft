@@ -7,9 +7,9 @@ namespace TopupBeneficiaries.Services
 	public class TopupValidatior: ITopupValidator
 	{
         private readonly ILogger<TopupValidatior> _logger;
-        private readonly LimitsAndCharges limitSettings;
+        private readonly ILimitsAndCharges limitSettings;
 
-		public TopupValidatior(ILogger<TopupValidatior> logger, LimitsAndCharges limitAnCharges)
+		public TopupValidatior(ILogger<TopupValidatior> logger, ILimitsAndCharges limitAnCharges)
 		{
             _logger = logger;
             limitSettings = limitAnCharges;
@@ -49,7 +49,8 @@ namespace TopupBeneficiaries.Services
             }
             else
             {
-                return topUpTransactions.Where(c => c.TopUpBeneficiaryId == beneficiary.Id).Sum(t => t.TopUpOption.TopUpAmount) + topUpOption.TopUpAmount <= limitSettings.VerifiedUserMonthlyLimit;
+                var sum = topUpTransactions.Where(c => c.TopUpBeneficiaryId == beneficiary.Id).Sum(t => t.TopUpOption.TopUpAmount);
+                return sum + topUpOption.TopUpAmount <= limitSettings.VerifiedUserMonthlyLimit;
             }
         }
     }

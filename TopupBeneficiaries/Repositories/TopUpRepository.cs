@@ -48,8 +48,7 @@ namespace TopupBeneficiaries.Repositories
             try
             {
                 await _dbContext.TopUpTransactions.AddAsync(topUpTransaction);
-                await _dbContext.SaveChangesAsync();
-                return true;
+                return (await _dbContext.SaveChangesAsync() > 0);
             }
             catch (Exception ex)
             {

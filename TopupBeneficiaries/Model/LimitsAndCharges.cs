@@ -1,16 +1,16 @@
 ﻿using System;
 namespace TopupBeneficiaries.Model
 {
-	public class LimitsAndCharges
+	public class LimitsAndCharges : ILimitsAndCharges
 	{
-        public readonly decimal TransactionCharges;
-        public readonly decimal VerifiedUserMonthlyLimit;
-        public readonly decimal UnVerifiedUserMonthlyLimit;
-        public readonly decimal TotalMonthlyLimit;
+        private readonly decimal _TransactionCharges;
+        private readonly decimal _VerifiedUserMonthlyLimit;
+        private readonly decimal _UnVerifiedUserMonthlyLimit;
+        private readonly decimal _TotalMonthlyLimit;
 
-        private readonly ILogger<LimitsAndCharges> _logger;
+        private readonly ILogger<ILimitsAndCharges> _logger;
 
-        public LimitsAndCharges(ILogger<LimitsAndCharges> logger, IConfiguration configuration)
+        public LimitsAndCharges(ILogger<ILimitsAndCharges> logger, IConfiguration configuration)
 		{
             _logger = logger;
             try
@@ -18,29 +18,36 @@ namespace TopupBeneficiaries.Model
                 var limitsConfigSection = configuration.GetSection("LimitsAndCharges");
                 if (limitsConfigSection != null)
                 {
-                    TransactionCharges = limitsConfigSection.GetValue<decimal>("TransactionCharges");
-                    VerifiedUserMonthlyLimit = limitsConfigSection.GetValue<decimal>("VerifiedUserMonthlyLimit");
-                    UnVerifiedUserMonthlyLimit = limitsConfigSection.GetValue<decimal>("UnVerifiedUserMonthlyLimit");
-                    TotalMonthlyLimit = limitsConfigSection.GetValue<decimal>("TotalMonthlyLimit");
+                    _TransactionCharges = limitsConfigSection.GetValue<decimal>("TransactionCharges");
+                    _VerifiedUserMonthlyLimit = limitsConfigSection.GetValue<decimal>("VerifiedUserMonthlyLimit");
+                    _UnVerifiedUserMonthlyLimit = limitsConfigSection.GetValue<decimal>("UnVerifiedUserMonthlyLimit");
+                    _TotalMonthlyLimit = limitsConfigSection.GetValue<decimal>("TotalMonthlyLimit");
                 }
                 else
                 {
-                    TransactionCharges = 1m;
-                    VerifiedUserMonthlyLimit = 500m;
-                    UnVerifiedUserMonthlyLimit = 1000m;
-                    TotalMonthlyLimit = 3000m;
+                    _TransactionCharges = 1m;
+                    _VerifiedUserMonthlyLimit = 500m;
+                    _UnVerifiedUserMonthlyLimit = 1000m;
+                    _TotalMonthlyLimit = 3000m;
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error reading LimitsAndCharges Configuration");
-                TransactionCharges = 1m;
-                VerifiedUserMonthlyLimit = 500m;
-                UnVerifiedUserMonthlyLimit = 1000m;
-                TotalMonthlyLimit = 3000m;
+                _TransactionCharges = 1m;
+                _VerifiedUserMonthlyLimit = 500m;
+                _UnVerifiedUserMonthlyLimit = 1000m;
+                _TotalMonthlyLimit = 3000m;
             }
         }
 
-	}
+        public decimal TransactionCharges => _TransactionCharges;
+
+        public decimal VerifiedUserMonthlyLimit => _VerifiedUserMonthlyLimit;
+
+        public decimal UnVerifiedUserMonthlyLimit => _UnVerifiedUserMonthlyLimit;
+
+        public decimal TotalMonthlyLimit => _TotalMonthlyLimit;
+    }
 }
 
