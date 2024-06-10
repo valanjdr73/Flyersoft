@@ -12,7 +12,8 @@ namespace TopupBeneficiaries.Controllers
 	{
 		private readonly IUserRepository _userRepository;
 		private readonly ILogger<UserServiceController> _logger;
-		public UserServiceController(ILogger<UserServiceController> logger, IUserRepository userRepository)
+		public UserServiceController(ILogger<UserServiceController> logger,
+			IUserRepository userRepository)
 		{
 			_userRepository = userRepository;
 			_logger = logger;

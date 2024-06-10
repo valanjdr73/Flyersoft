@@ -127,8 +127,14 @@ namespace TopupBeneficiaries.Controllers
                             return StatusCode(500, new ErrorDto { ErrorCode = 63, ErrorMessage = "Error processing debit amount from user account" });
                         }
 
-                        await _topupRepository.SaveTopUpTransactionAsync(topUpTransaction);
-                        return NoContent();
+                        if (await _topupRepository.SaveTopUpTransactionAsync(topUpTransaction))
+                        {
+                            return NoContent();
+                        }
+                        else
+                        {
+                            return StatusCode(500, new ErrorDto { ErrorCode = 65, ErrorMessage = "Error saving Topup details" });
+                        }
                     }
                     else
                     {
